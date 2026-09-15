@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!--
+      실습 5의 핵심인 DomainResultGraphPrinter가 이 카테고리로 찍는다.
+      카테고리 이름 끝의 AST가 대문자라 logging.level.* 완화 바인딩에서 누락될 수 있어 여기서 직접 선언한다.
+      덤프 출력 클래스들은 로거 레벨을 클래스 로드 시점에 한 번 확인하므로 기동 전에 켜져 있어야 한다.
+    -->
+    <logger name="org.hibernate.orm.results.graph.AST" level="TRACE"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
