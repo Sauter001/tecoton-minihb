@@ -2,9 +2,12 @@ package com.sauter001.demo.spike.domain;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @DiscriminatorValue("WAITING")
 public class SlotWaiting extends SlotClaim {
@@ -21,7 +24,4 @@ public class SlotWaiting extends SlotClaim {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 }

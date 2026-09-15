@@ -5,11 +5,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 /** 평면 모델. 실습 1, 2, 3, 5, 7, 8이 쓴다. */
+@Getter
 @Entity
 @Table(name = "reservation")
 public class Reservation extends BaseEntity {
@@ -43,27 +46,4 @@ public class Reservation extends BaseEntity {
         this.store = store;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public ReservationTime getTime() {
-        return time;
-    }
-
-    public Theme getTheme() {
-        return theme;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public List<ReservationWait> getWaitings() {
-        return waitings;
-    }
 }

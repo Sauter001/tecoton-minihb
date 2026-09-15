@@ -2,8 +2,11 @@ package com.sauter001.demo.spike.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.Getter;
+
 import java.time.LocalTime;
 
+@Getter
 @Entity
 @Table(name = "reservation_time")
 public class ReservationTime extends BaseEntity {
@@ -17,7 +20,4 @@ public class ReservationTime extends BaseEntity {
         this.startAt = startAt;
     }
 
-    public LocalTime getStartAt() {
-        return startAt;
-    }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.SequenceGenerator;
+import lombok.Getter;
 
 /**
  * 시퀀스를 하나로 통일하기 위한 장치다.
@@ -13,6 +14,7 @@ import jakarta.persistence.SequenceGenerator;
  * ID가 겹친다. 엔티티마다 시퀀스가 따로 생기는 것도 같은 이유로 막아야 해서
  * {@code @SequenceGenerator}를 여기 한 번만 선언하고 전 엔티티가 상속받는다.
  */
+@Getter
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -21,7 +23,4 @@ public abstract class BaseEntity {
     @SequenceGenerator(name = "spike_gen", sequenceName = "spike_seq", allocationSize = 50)
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
 }

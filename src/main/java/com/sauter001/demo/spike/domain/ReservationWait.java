@@ -4,9 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
 /** 평면 모델. Reservation을 참조하므로 실습 7의 2단계 깊이 관측에 쓴다. */
+@Getter
 @Entity
 @Table(name = "reservation_wait")
 public class ReservationWait extends BaseEntity {
@@ -28,15 +31,4 @@ public class ReservationWait extends BaseEntity {
         this.createdAt = createdAt;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 }

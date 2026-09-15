@@ -7,6 +7,8 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+
 import java.time.LocalDate;
 
 /**
@@ -21,6 +23,7 @@ import java.time.LocalDate;
  * TABLE_PER_CLASS에서도 같은 테이블 이름이 나오고 전략 한 줄만 바꾸는 성질이 유지된다.
  * {@code @DiscriminatorColumn}은 SINGLE_TABLE에서만 의미가 있고 다른 전략에서는 무시되므로 그대로 둔다.
  */
+@Getter
 @Entity
 @Table(name = "slot_claim")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -52,23 +55,4 @@ public abstract class SlotClaim extends BaseEntity {
         this.store = store;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public Theme getTheme() {
-        return theme;
-    }
-
-    public ReservationTime getTime() {
-        return time;
-    }
-
-    public Store getStore() {
-        return store;
-    }
 }
