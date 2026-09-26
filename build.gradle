@@ -45,12 +45,59 @@ dependencies {
     mockitoAgent('org.mockito:mockito-core') { transitive = false }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+// useJUnitPlatform은 부를 때마다 옵션 객체를 새로 만든다. configureEach가 태스크별 설정보다
+// 나중에 적용되므로, 여기서 태그까지 건드리면 태스크마다 준 태그가 덮인다. 공통은 태그 밖의 것만 둔다
+tasks.withType(Test).configureEach {
     // -Xshare:off는 에이전트가 부트 클래스패스를 건드려서 나는 CDS 경고를 없앤다
     jvmArgs "-javaagent:${configurations.mockitoAgent.asPath}", "-Xshare:off"
     testLogging {
         showStandardStreams = true
         events 'passed', 'failed', 'skipped'
+    }
+}
+
+// 관측 테스트(Testcontainers)는 Docker가 떠 있어야 하고 컨테이너 기동까지 기다려야 한다.
+// minihb 컴파일러는 단계 7 전까지 DB를 전혀 안 쓰므로, 섞어 돌리면 Docker가 없을 때 같이 죽는다.
+// 그래서 태스크를 나눈다.
+
+/** 전부 돌린다. 관측 테스트가 들어 있어 Docker가 필요하다. */
+tasks.named('test') {
+    // 벽 테스트는 빨간 게 정상이라 기본 실행에서 뺀다. 볼 때는 wallTest로 본다
+    useJUnitPlatform {
+        excludeTags 'wall'
+    }
+}
+
+/** 단계 0부터 6까지 쓰는 태스크. Docker 없이 즉시 돈다. 여기는 늘 초록이어야 한다. */
+tasks.register('minihbTest', Test) {
+    group = 'verification'
+    description = 'minihb 컴파일러 단위 테스트 (벽 테스트 제외, Docker 불필요)'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform {
+        excludeTags 'wall'
+    }
+    filter {
+        includeTestsMatching 'com.sauter001.demo.spike.minihb.*'
+        failOnNoMatchingTests = false
+    }
+}
+
+/**
+ * 교재 3-3의 "막힌 상태를 반드시 커밋한다"를 태스크로 만든 것.
+ * @Tag("wall")을 붙인 테스트만 돌린다. 빨간 게 정상이고, 단계가 진행되면서 하나씩 초록이 된다.
+ * 단계 0의 실패 테스트 셋은 단계 2에서 둘, 단계 5에서 하나가 초록이 된다.
+ */
+tasks.register('wallTest', Test) {
+    group = 'verification'
+    description = '아직 넘지 못한 벽 (빨간 게 정상이다)'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    ignoreFailures = true
+    useJUnitPlatform {
+        includeTags 'wall'
+    }
+    filter {
+        failOnNoMatchingTests = false
     }
 }
