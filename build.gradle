@@ -18,6 +18,11 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    // Mockito가 스스로 에이전트로 붙으면서 내는 JDK 경고를 없앤다. 실습 로그에 섞이면 읽기 나쁘다
+    mockitoAgent
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -37,10 +42,13 @@ dependencies {
     testImplementation 'net.ttddyy:datasource-proxy:1.10.1'
     runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    mockitoAgent('org.mockito:mockito-core') { transitive = false }
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    // -Xshare:off는 에이전트가 부트 클래스패스를 건드려서 나는 CDS 경고를 없앤다
+    jvmArgs "-javaagent:${configurations.mockitoAgent.asPath}", "-Xshare:off"
     testLogging {
         showStandardStreams = true
         events 'passed', 'failed', 'skipped'

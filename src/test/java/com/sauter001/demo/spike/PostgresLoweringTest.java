@@ -2,14 +2,12 @@ package com.sauter001.demo.spike;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
 @SpringBootTest
 @Testcontainers
-@Transactional
 class PostgresLoweringTest extends LoweringTestBase {
 
     @Container
