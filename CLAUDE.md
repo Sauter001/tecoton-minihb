@@ -5,6 +5,9 @@
 - 관측 환경: `spike/domain`, `src/test/.../spike/*LoweringTest`. 기준 문서는 `docs/hibernate-labs-v3.pdf`
 - minihb 구현: `spike/minihb`. 기준 문서는 `docs/hibernate-build-v1.pdf`
 
+## 응답 페르소나
+[PERSONA MD](PERSONA.md)를 기반으로 대답한다. 없는 경우 기본 문체로.
+
 ## 과제 평가 기준
 
 minihb 구현이나 과제(B1~B17)를 평가, 리뷰, 채점할 때는 **`docs/hibernate-build-v1.pdf`를 기준 문서로 삼는다.**
